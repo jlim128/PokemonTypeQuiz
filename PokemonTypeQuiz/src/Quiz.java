@@ -60,7 +60,7 @@ public class Quiz {
 		}
 	}
 	
-	public void runQuiz() {
+	public void runQuiz1() {
 		Random rand = new Random();
 		int runQuiz = types.size();
 		int type = rand.nextInt(runQuiz);
@@ -175,5 +175,53 @@ public class Quiz {
 			break;
 		}
 		return true;
+	}
+	
+	public void runQuiz2(int quizSize) {
+		String answer = "";
+		Random rand = new Random();
+		int runQuiz = quizSize;
+		int numCorrect = 0;
+		in = new Scanner(System.in);
+		
+		while(runQuiz != 0) {
+			Type type1 = types.get(rand.nextInt(types.size()));
+			Type type2 = types.get(rand.nextInt(types.size()));
+			System.out.println("Is " + type1.getType() + " super effective (2), not very effective (0.5)" + 
+								", no effect (0), or normal (1) against " + type2.getType() + "?");
+			
+			System.out.print("Enter answer here: ");
+			answer = in.next();
+			
+			String correct = "";
+			String err = "";
+			if(type1.isSuperEffective(type2.getType())) {
+				correct = "2";
+				err = "Incorrect. " + type1.getType() + " is actually super effective against " + type2.getType();
+			}
+			else if(type1.isNotEffective(type2.getType())) {
+				correct = "0.5";
+				err = "Incorrect. " + type1.getType() + " is actually not very effective against " + type2.getType();
+			}
+			else if(type1.isNoEffect(type2.getType())) {
+				correct = "0";
+				err = "Incorrect. " + type1.getType() + " actually does not affect " + type2.getType();
+			}
+			else {
+				correct = "1";
+				err = "Incorrect. " + type1.getType() + " is actually normal against " + type2.getType();
+			}
+			
+			if(answer.equals(correct)){
+				++numCorrect;
+				System.out.println("Correct");
+			}
+			else {
+				System.out.println(err);
+			}
+			--runQuiz;
+		}
+		
+		System.out.println("You got " + numCorrect + " out of " + quizSize + " correct.");
 	}
 }
